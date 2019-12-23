@@ -23,11 +23,6 @@ AccessLogger.prototype = {
         limit = now - this.time;
 
 
-        console.log("accessTimes.length:" + accessTimes.length);
-        // short circuit an access that has not even had max qty accesses yet
-        if (accessTimes.length < this.qty) {
-            return true;
-        }
         cnt = 0;
         for (var i = accessTimes.length - 1; i >= 0; i--) {
             if (accessTimes[i] > limit) {
@@ -38,7 +33,12 @@ AccessLogger.prototype = {
             }
         }
 
-        return cnt <= this.qty
+        //return cnt <= this.qty
+
+        return {
+            count: cnt,
+            ok: cnt <= this.qty
+        };
 
     },
     add: function (ip) {
